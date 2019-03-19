@@ -1,6 +1,9 @@
 import tkinter as tk
 from tkinter import messagebox
 from tkinter.filedialog import *
+from ctypes import * 
+lib = cdll.LoadLibrary('wordlist.so')
+
 
 window = tk.Tk()
 window.title('WordList')
@@ -17,6 +20,8 @@ varhc = tk.IntVar()
 vartc = tk.IntVar()
 outString = ''
 inputFile = ''
+preinputFile = ''
+inputfromscreen = False
 
 def Choose():
     if varwr.get():
@@ -52,10 +57,11 @@ def saveFile():
         f.write(outString)
 
 def Click():
-    global outString, inputFile
+    global outString, inputFile, preinputFile
     para_n = nt.get()
     para_h = ht.get()
     para_t = tt.get()
+    
     if varnc.get() and not para_n.isdigit():
         messagebox.showerror(title='Error', message='Length of words should be a number')
         return
@@ -65,13 +71,45 @@ def Click():
     if vartc.get() and (not para_t.isalpha() or len(para_t) != 1):
         messagebox.showerror(title='Error', message='Tail should be a letter')
         return
+    if varic.get() == 'file' and len(filee.get()) == 0 :
+        messagebox.showerror(title='Error', message='Path error')
+        return
+
+    if len(para_n)==0:
+        para_n = 0
+    else:
+        para_n = int(para_n)
+    if len(para_h) != 1 :
+        para_h = '0'
+    if len(para_t) != 1 :
+        para_t = '0'
+    if varcr.get() == 0:
+        para_w = True
+    else:
+        para_w = False
 
     if varic.get() == 'file':
-        with open(inputFile, 'r') as f:
-            outString = f.read()
+        try:
+            with open(inputFile, 'r') as f:
+                outString = f.read()
+            inputfromscreen = False
+        except Exception as e:
+            messagebox.showerror(title='Error', message='Path error')
+            return
     else:
-        outString = textt.get('1.0', 'end')
+        inputFile = textt.get('1.0', 'end')
+        inputfromscreen = True
     count = 0
+
+    if inputFile != preinputFile:
+        inputFile = inputFile.encode('ascii')
+    print([inputFile,varwr.get(),varhc.get(),para_h,vartc.get(),para_t,varnc.get(),para_n])
+    lib.Kana.restype = c_char_p
+    outString = lib.Kana(c_char_p(inputFile),c_bool(para_w),c_bool(varhc.get()),c_wchar(para_h), \
+        c_bool(vartc.get()),c_wchar(para_t),c_bool(varnc.get()),c_int(para_n),c_bool(inputfromscreen))
+    print(outString)
+
+    outString = outString.decode()
     for i in outString:
         if i == '\n':
             count += 1
@@ -82,6 +120,7 @@ def Click():
     text.pack()
     sb = tk.Button(output, text='Save to..', height=1, width=8, command=saveFile)
     sb.pack()
+    preinputFile = inputFile
 
 
 
