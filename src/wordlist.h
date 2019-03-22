@@ -5,6 +5,7 @@
 #include<fstream>
 #include<stdio.h>
 #include<algorithm>
+#include<time.h>
 #include<unistd.h>
 
 #define LIMITED_MAX 1000000000
@@ -22,7 +23,7 @@ namespace wordList{
     int  wc_paranum = 0;     //para -w -c
     bool specWordLens = false;  // para -n
     bool spechead = false,spectail = false; //para -h -t
-    bool inputfromscreen = false;
+    bool inputfromscreen = false; //when use cmd,represent para -f
     char head,tail='f';
     bool Compare(const std::string s1,const std::string s2);
 
@@ -137,7 +138,7 @@ namespace wordList{
     int tempEstimatedMaxLength = 0;
     int specLength = 0;
     int recDeep = 0;
-    int maxDeep = 100;
+    clock_t begin,end;
 
     std::string result;
     std::string FileName;

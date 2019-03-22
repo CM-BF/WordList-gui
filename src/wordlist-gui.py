@@ -74,6 +74,9 @@ def Click():
     if varic.get() == 'file' and len(filee.get()) == 0 :
         messagebox.showerror(title='Error', message='Path error')
         return
+    if int(para_n) < 2:
+        messagebox.showerror(title='Error', message='Word lengths should >=2')
+        return
 
     if len(para_n)==0:
         para_n = 0
@@ -103,16 +106,25 @@ def Click():
 
     if inputFile != preinputFile:
         inputFile = inputFile.encode('ascii')
-    print([inputFile,varwr.get(),varhc.get(),para_h,vartc.get(),para_t,varnc.get(),para_n])
+    #print([inputFile,varwr.get(),varhc.get(),para_h,vartc.get(),para_t,varnc.get(),para_n])
     lib.Kana.restype = c_char_p
     outString = lib.Kana(c_char_p(inputFile),c_bool(para_w),c_bool(varhc.get()),c_wchar(para_h), \
         c_bool(vartc.get()),c_wchar(para_t),c_bool(varnc.get()),c_int(para_n),c_bool(inputfromscreen))
-    print(outString)
+    #print(outString)
 
     outString = outString.decode()
     for i in outString:
         if i == '\n':
             count += 1
+    num = 0
+    for i in outString:
+        if i=='\n':
+            break
+        else:
+            num = num*10 + int(i)
+    if num < 1:
+        messagebox.showerror(title='Error', message='No wordlists meet the requirements')
+        return
     output = tk.Tk()
     output.title('output')
     text = tk.Text(output, height=count, width=10)
