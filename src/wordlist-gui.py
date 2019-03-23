@@ -61,6 +61,7 @@ def Click():
     para_n = nt.get()
     para_h = ht.get()
     para_t = tt.get()
+    inputFile = path.get()
     
     if varnc.get() and not para_n.isdigit():
         messagebox.showerror(title='Error', message='Length of words should be a number')
@@ -92,11 +93,13 @@ def Click():
         para_w = False
 
     if varic.get() == 'file':
+        print('in')
         try:
             with open(inputFile, 'r') as f:
                 outString = f.read()
             inputfromscreen = False
         except Exception as e:
+            print(e)
             messagebox.showerror(title='Error', message='Path error')
             return
     else:
@@ -179,9 +182,8 @@ def Input():
         textt.config(state=tk.NORMAL, background='white')
 
 def selectPath():
-    global  inputFile
-    inputFile = askopenfilename()
-    path.set(inputFile)
+    path_ = askopenfilename()
+    path.set(path_)
 
 # file
 tk.Label(window, text='Input from:').place(x=50, y=450, anchor='nw')
