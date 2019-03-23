@@ -265,11 +265,12 @@ void output_print(int deep,std::vector<wordList::wordSides> tempwordList){
     }
     wordList::wordSides wordsides = tempwordList.at(deep);
     for(int i = 0;i < wordList::wordMatrix.getsize(wordsides.begin,wordsides.end);i++){
-        auto word = wordList::wordMatrix.getWord(wordsides.begin,wordsides.end,i);
+        auto word = wordList::wordMatrix.erase(wordsides.begin,wordsides.end,i);
 
         wordList::tempspecWordList.push_back(word);
         output_print(deep + 1,tempwordList);
         wordList::tempspecWordList.pop_back();
+        wordList::wordMatrix.insert(wordsides.begin,wordsides.end,word,i);
     }
 }
 
