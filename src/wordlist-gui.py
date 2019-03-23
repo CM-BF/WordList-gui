@@ -57,7 +57,7 @@ def saveFile():
         f.write(outString)
 
 def Click():
-    global outString, inputFile, preinputFile
+    global outString, inputFile
     para_n = nt.get()
     para_h = ht.get()
     para_t = tt.get()
@@ -104,7 +104,7 @@ def Click():
         inputfromscreen = True
     count = 0
 
-    if inputFile != preinputFile:
+    if not isinstance(inputFile,bytes) :
         inputFile = inputFile.encode('ascii')
     #print([inputFile,varwr.get(),varhc.get(),para_h,vartc.get(),para_t,varnc.get(),para_n])
     lib.Kana.restype = c_char_p
@@ -132,7 +132,6 @@ def Click():
     text.pack()
     sb = tk.Button(output, text='Save to..', height=1, width=8, command=saveFile)
     sb.pack()
-    preinputFile = inputFile
 
 
 

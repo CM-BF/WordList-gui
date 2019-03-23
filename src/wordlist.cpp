@@ -223,7 +223,7 @@ begin: it is decided by last layer(the end of last word)
         }     
     }
     if(spectail){
-        if(recDeep > 1 && deep >= maxLength && begin==tail){
+        if(recDeep > 1 && deep >= maxLength && recDeep >= specLength && begin==tail){
         maxLength = deep;
         tempEstimatedMaxLength = maxLength;
         maxWordList = tempMaxWordList;
@@ -231,7 +231,7 @@ begin: it is decided by last layer(the end of last word)
         }
     }
     else {
-        if(recDeep > 1 && deep >= maxLength){
+        if(recDeep > 1 && recDeep >= specLength && deep >= maxLength){
         maxLength = deep;
         tempEstimatedMaxLength = maxLength;
         maxWordList = tempMaxWordList;
