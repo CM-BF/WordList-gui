@@ -86,7 +86,7 @@ bool wordList::Compare(const std::string s1,const std::string s2)
 void wordList::loadingWords(){
     std::unordered_map<std::string, int> Smap;
     if(!inputfromscreen){
-        std::ifstream inFile(FileName);
+        std::ifstream inFile(inFileName);
         while(!inFile.eof())
         {
             std::string S;
@@ -243,21 +243,21 @@ begin: it is decided by last layer(the end of last word)
 
 void wordList::output(){
     int count[26][26] = {0};
-    cout << maxLength <<endl;
+    COUT(maxLength);
     result += to_string(maxLength) + '\n';
     for(auto it=maxWordList.begin(); it!=maxWordList.end(); it++){
         auto wordsides = *it;
         auto word = wordMatrix.popWord(wordsides.begin, wordsides.end);
-        cout<<word<<endl;
+        COUT(word);
         result += word + '\n';
     }
-    cout << endl;
+    COUT("");
 }
 
 void output_print(int deep,std::vector<wordList::wordSides> tempwordList){
     if(deep == tempwordList.size()){
         for(auto it=wordList::tempspecWordList.begin(); it!=wordList::tempspecWordList.end(); it++){
-            cout<<*it<<endl;
+            COUT(*it);
             wordList::result += *it + '\n';
         }
         wordList::result += '\n';
@@ -285,11 +285,11 @@ void wordList::outputspecWordList(){
         }
         totalnum += tempnum;
     }
-    cout << totalnum <<endl;
+    COUT(totalnum);
     result += to_string(totalnum) + '\n';
     for(auto it1 = specWordLists.begin();it1!=specWordLists.end();it1++){
         output_print(0,*it1);
-        cout <<endl;
+        COUT("");
         result += '\n';
     }
 }
@@ -373,7 +373,6 @@ bool spectail,char tail,bool specWordLens,int Length,bool inputfromscreen){
 
         cout << FileName <<" "<<WordLens <<" "<<spechead <<" "<<head <<" "<<spectail <<" "
             <<tail <<" "<<specWordLens <<" "<<Length <<endl;
-        wordList::result = "";
         
         wordList::inFileName = FileName;
         wordList::WordLens = WordLens;
@@ -388,7 +387,6 @@ bool spectail,char tail,bool specWordLens,int Length,bool inputfromscreen){
         Init();
         wordList::loadingWords();
         wordList::Find_WordList();
-
         if(wordList::specWordLens && wordList::WordLens) wordList::outputspecWordList();
         else wordList::output();
         

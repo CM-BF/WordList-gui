@@ -74,7 +74,7 @@ def Click():
     if varic.get() == 'file' and len(filee.get()) == 0 :
         messagebox.showerror(title='Error', message='Path error')
         return
-    if int(para_n) < 2:
+    if varnc.get() and int(para_n) < 2:
         messagebox.showerror(title='Error', message='Word lengths should >=2')
         return
 
