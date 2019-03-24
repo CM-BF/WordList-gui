@@ -372,8 +372,6 @@ extern "C"
     const char* Kana(char* FileName,bool WordLens,bool spechead,char head,
 bool spectail,char tail,bool specWordLens,int Length,bool inputfromscreen){
 
-        cout << FileName <<" "<<WordLens <<" "<<spechead <<" "<<head <<" "<<spectail <<" "
-            <<tail <<" "<<specWordLens <<" "<<Length <<endl;
         
         wordList::inFileName = FileName;
         wordList::WordLens = WordLens;
@@ -391,7 +389,7 @@ bool spectail,char tail,bool specWordLens,int Length,bool inputfromscreen){
         if(wordList::specWordLens && wordList::WordLens) wordList::outputspecWordList();
         else wordList::output();
         
-        cout << wordList::result <<endl;
+        COUT(wordList::result);
         return wordList::result.c_str();
     }
 }

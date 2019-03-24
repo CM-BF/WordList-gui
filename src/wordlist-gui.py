@@ -93,7 +93,7 @@ def Click():
         para_w = False
 
     if varic.get() == 'file':
-        print('in')
+        #print('in')
         try:
             with open(inputFile, 'r') as f:
                 outString = f.read()
